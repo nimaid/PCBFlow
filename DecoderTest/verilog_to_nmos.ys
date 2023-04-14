@@ -26,6 +26,6 @@ show -format pdf -prefix netlist_low
 
 # Write out in spice format
 write_spice output.sp
-write_json  output.json
+write_json output.json
 
 

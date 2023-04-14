@@ -1,0 +1,31 @@
+# Verilog to Discrete nmos-logic
+
+# Read source file
+read_verilog ./source.v
+
+# Read verilog description of cells
+read_verilog -lib ../20_SYNTH/discrete_nmos_logic_cells.v
+
+# Draw netlist of high-level design
+show -format pdf -prefix netlist_high
+
+# Synthesize the NMOS logic
+synth
+
+proc; opt; fsm; opt; 
+dfflibmap -liberty ../20_SYNTH/discrete_nmos_logic_liberty.lib
+proc; opt;
+abc -liberty ../20_SYNTH/discrete_nmos_logic_liberty.lib
+opt_clean -purge
+
+# Print Statistics
+stat -liberty ../20_SYNTH/discrete_nmos_logic_liberty.lib
+
+# Draw netlist of optimized and mapped design
+show -format pdf -prefix netlist_low
+
+# Write out in spice format
+write_spice output.sp
+write_json  output.json
+
+
